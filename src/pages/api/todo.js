@@ -5,11 +5,16 @@ export const todoList = [
 ];
 
 export default function handler(req, res) {
-  console.log("request: ", req.method);
   if (req.method === "GET") {
-    res.json(todoList);
+    setTimeout(() => res.json(todoList), 1000);
   } else if (req.method === "POST") {
-    todoList.push(req.body);
-    res.status(200).json(req.body);
+    if (Math.random() <= 0.5) {
+      setTimeout(() => {
+        res.status(500).send({ success: false });
+      }, 1000);
+    } else {
+      todoList.push(JSON.parse(req.body));
+      setTimeout(() => res.status(200).json(todoList), 1000);
+    }
   }
 }

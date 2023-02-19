@@ -1,18 +1,22 @@
 import { todoList } from "../todo";
 
 export default function handler(req, res) {
-  console.log("request: ", req.method);
-  if (req.method === "DELETE") {
-    /* console.log("todo list: ", todoList, req.query.id);
-    const index = todoList.findIndex((val) => {
-      console.log("valu", val.id == req.query.id);
-      return val.id == req.query.id;
-    });
-    console.log("id: ", index);
-    if (index > -1) {
-      delete todoList[index];
-    } */
+  if (Math.random() <= 0.5) {
+    setTimeout(() => {
+      res.status(500).send({ success: false });
+    }, 1000);
+  } else {
+    if (req.method === "DELETE") {
+      const index = todoList.findIndex((val) => {
+        return val.id == req.query.id;
+      });
+      if (index > -1) {
+        delete todoList[index];
+      }
 
-    res.status(500).json(todoList);
+      setTimeout(() => {
+        res.status(200).json(todoList);
+      }, 1000);
+    }
   }
 }
